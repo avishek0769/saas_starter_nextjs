@@ -58,9 +58,15 @@ function SignUp() {
         if (!isLoaded) return null;
 
         try {
-            const completeSignup = await signUp.attemptEmailAddressVerification({ code })
-            setActive({ session: completeSignup.createdSessionId })
-            router.push("/dashboard")
+            const result = await signUp.attemptEmailAddressVerification({ code })
+
+            if(result.status == "complete"){
+                setActive({ session: result.createdSessionId })
+                router.push("/dashboard")
+            }
+            if(result.status != "complete") {
+                console.error(JSON.stringify(result, null, 2));
+            }
         }
         catch (error: any) {
             console.log(JSON.stringify(error, null, 2))
