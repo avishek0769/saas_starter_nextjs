@@ -1,3 +1,4 @@
+"use client"
 import { useSignUp } from '@clerk/nextjs'
 import React, { useState } from 'react'
 import { Label } from "@/components/ui/label"
@@ -13,6 +14,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Eye, EyeOff } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 
 function SignUp() {
@@ -23,6 +25,7 @@ function SignUp() {
     const [code, setCode] = useState<string>("")
     const [error, setError] = useState<string>()
     const [showPassword, setShowPassword] = useState<boolean>()
+    const router = useRouter()
 
     if (!isLoaded) {
         return (
@@ -57,6 +60,7 @@ function SignUp() {
         try {
             const completeSignup = await signUp.attemptEmailAddressVerification({ code })
             setActive({ session: completeSignup.createdSessionId })
+            router.push("/dashboard")
         }
         catch (error: any) {
             console.log(JSON.stringify(error, null, 2))
