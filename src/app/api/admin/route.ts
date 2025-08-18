@@ -1,6 +1,6 @@
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "../../../../lib/prisma";
+import prisma from "@/../lib/prisma";
 
 const ITEMS_PER_PAGE = 10;
 
