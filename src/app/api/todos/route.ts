@@ -6,6 +6,8 @@ const ITEMS_PER_PAGE = 10
 
 export async function POST(req: NextRequest) {
     const { userId } = await auth()
+    console.log(userId, "POST todo")
+    
     if (!userId) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

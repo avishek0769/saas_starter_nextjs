@@ -3,18 +3,16 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/../lib/prisma";
 
 type ParamsType = {
-    params: {
-        id: string;
-    }
+    params: Promise<{id: string}>
 }
 
-export async function PUT(req: NextRequest, { params }: ParamsType) {
+export async function PUT(req: NextRequest, context: ParamsType) {
     const { userId } = await auth()
     if (!userId) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const todoId = params.id;
+    const todoId = (await context.params).id;
     if (!todoId) {
         return NextResponse.json({ error: "Todo id is not present" }, { status: 401 });
     }
@@ -42,13 +40,13 @@ export async function PUT(req: NextRequest, { params }: ParamsType) {
     }
 }
 
-export async function DELETE(req: NextRequest, { params }: ParamsType) {
+export async function DELETE(req: NextRequest, context: ParamsType) {
     const { userId } = await auth()
     if (!userId) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const todoId = params.id;
+    const todoId = (await context.params).id
     if (!todoId) {
         return NextResponse.json({ error: "Todo id is not present" }, { status: 401 });
     }
